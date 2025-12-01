@@ -1,0 +1,119 @@
+%%% IM2015.sty
+%%% Copyright 2014, D. Hofer, F. Dietachmayr, P. Hölzl
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work consists of the files IM2015.sty and IM2015_template.tex.
+%%-----------------------------------------------------------------------------
+
+
+% include some packages
+%------------------------------------------------------------------------------
+\usepackage[T1]{fontenc}        % font encoding
+\usepackage[latin1]{inputenc}   % input encoding
+
+\usepackage{ae}                 % almost european, not needed if cm-super present
+\usepackage{calc}               % add some length parameters
+\usepackage{amsmath}            % math
+\usepackage{amssymb}
+
+\usepackage[                    % page layout
+    left=18mm,
+    right=18mm,
+    top=25mm,
+    bottom=25mm,
+    headsep=9mm,
+    headheight=15mm,
+    footskip=10mm,
+    driver=auto]{geometry}
+
+\setlength{\columnsep}{5mm}
+\setlength{\parindent}{3.5mm}
+
+% redefine sectioning
+%------------------------------------------------------------------------------
+\renewcommand \thesection {\Roman{section}.}
+\makeatletter
+    \renewcommand{\section}{\@startsection{section}{1}{0mm}
+       {\baselineskip}%
+       {\baselineskip}%
+       {\bf\normalsize\centering\uppercase}}%
+\makeatother
+
+\renewcommand \thesubsection {\Alph{subsection}.}
+\makeatletter
+    \renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}
+       {\baselineskip}%
+       {\baselineskip}%
+       {\noindent\normalsize\textit}}%
+\makeatother
+
+\renewcommand{\thesubsubsection}{\arabic{subsubsection})}
+\renewcommand{\subsubsection}[1]{%
+ \refstepcounter{subsubsection}% manually increment the chapter number
+ \def\tempa{}%
+ \def\tempb{#1}
+ \ifx\tempa\tempb
+    \textit{\thesubsubsection~}%
+ \else
+    \textit{\thesubsubsection~#1:~}%
+ \fi
+}
+
+\renewenvironment{abstract}{\noindent\textit{\textbf{Abstract~--~}}}{}%
+\newenvironment{keywords}{\vspace{\baselineskip}\noindent\textit{Keywords~--~}}{}%
+
+% redefine labeling
+%------------------------------------------------------------------------------
+\makeatletter
+\def\@maketitle{%
+  \newpage
+  \null
+  \vskip -2em%
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip 1.5em%
+    {\large
+      \lineskip .5em%
+      \begin{tabular}[t]{c}%
+        \@author
+      \end{tabular}\par}%
+    \vskip 1em%
+    {\large \@date}%
+  \end{center}%
+  \par
+  \vskip 1.5em}
+\makeatother
+
+\makeatletter
+    \renewcommand{\title}[1]{\gdef\@title{\reset@font\Large\bfseries\uppercase{ #1}}}
+\makeatother
+
+\newcommand{\authorinfo}[2]{\normalsize\footnotemark[#1] #2}
+
+\renewcommand\figurename{Fig.}
+\renewcommand\tablename{Tab.}
+\renewcommand{\refname}{}
+
+% at last - hyperref
+%------------------------------------------------------------------------------
+\usepackage[colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black,
+    breaklinks=true,
+    bookmarksnumbered=true,
+    hypertexnames=false,
+    pdfpagemode=UseOutlines,
+    pdfview=FitH,
+    plainpages=false,
+    pdfpagelabels,
+    bookmarks=true,
+    linktocpage=true]{hyperref} 

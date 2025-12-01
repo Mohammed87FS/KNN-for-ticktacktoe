@@ -1,0 +1,1045 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article_IM
+\begin_preamble
+%%% IM2015_template.sty
+%%% Copyright 2014, D. Hofer, F. Dietachmayr, P. Hölzl
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work consists of the files IM2015.sty and IM2015_template.tex.
+%%
+%%-----------------------------------------------------------------------------
+
+
+
+% load some packages
+\usepackage{multirow}% multirows in a table
+
+
+% this style loads the hyperref package - be aware that almost any additional
+% package should be included before hyperref, refer to the hyperref manual
+% or to the manual of the package in question for details
+\usepackage{IM2015}
+
+% please define some PDF-tags
+
+
+% title
+%\title{Räumliche Schwinungsanalyse auf Basis innovativer Bilderfassung}
+\title{3D Schwingungsanalyse mit Hilfe innovativer Bildkorrelation}
+\author{Markus J. Hochrainer, Florian A. Schauer,\\  Hinweis: in Dokument-Einstellungen-Latex-Vorspann eintragen}
+ 
+
+
+% your paper starts here
+ \newcounter{tempsection}
+            \newcounter{tempsubsection}
+            \newcounter{tempsubsubsection}
+        
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language ngerman
+\language_package none
+\inputencoding default
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 10
+\spacing single
+\use_hyperref false
+\pdf_title "IM 2015 Guidelines for Style of Papers"
+\pdf_author "S. Gregory Jones, Titania A. R. Schmidt"
+\pdf_subject "IM 2015"
+\pdf_keywords "IM 2015 paper format, style requirements"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle true
+\pdf_quoted_options "pdfcreator={LaTeX with hyperref (\today})"
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 2
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{gobble}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Abstract
+Kurze Zusammenfassung des Projektes, z.B.: Bereits seit einigen Jahren wird
+ ein verstärkter Einsatz von technisch hochwertigen Bildverarbeitungssystemen
+ in der Messdatenerfassung  festgestellt.
+ Diese Arbeit zeigt, dass durch ein innovatives Beleuchtungskonzept eine
+ hochdynamische und präzise Auswertung von räumlichen Schwingungen mit Standard-
+Webcams möglich wird, wenn die tatsächliche Frequenz einer periodischen
+ Schwingung mit Hilfe des Stroboskopeffektes an die geringe Erfassungsrate
+ der verwendeten Kameras angepasst wird.
+ Die räumliche Vermessung und Visualisierung der deformierten Flächen erfolgt
+ durch automatisierte 3D-Stereo-Bildkorrelation.
+ Die Leistungsfähigkeit des vorgestellten Systems wird durch experimentelle
+ Untersuchungen an elastisch schwingenden Strukturen bestätigt.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{keywords}
+\end_layout
+
+\end_inset
+
+ Schlagworte: z.B.: Digitale Bildkorrelation, Stereo-Vision, Stroboskopeffekt,
+ Optische Schwingungsmessung.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{keywords}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Einleitung
+\end_layout
+
+\begin_layout Standard
+Die Er\SpecialChar \-
+fassung von Strukturschwingungen erfolgt traditionell mit Hilfe von
+ Beschleunigungssensoren, die an genau definierten Positionen auf der Struktur
+ appliziert und mittels experimenteller Modalanalyse ausgewertet werden.
+ Bei diesem anspruchsvollen Ana\SpecialChar \-
+lyseverfahren können alle charakteristischen
+ strukturdynamischen Größen (Schwingungsform, Eigenfrequenz und Dämpfung)
+ vollständig ermittelt werden, wobei eine definierte Schwingungsanregung
+ durch Impulshammer oder Shaker erfolgen muss.
+ Ist diese Art der Anregung nicht möglich, kann alternativ eine Betriebs\SpecialChar \-
+schwingu
+ngsanalyse durchgeführt werden, welche die tatsächlichen Schwingungsamplituden
+ in stationären Betriebs\SpecialChar \-
+zuständen erfasst.
+ In jedem Fall verändert das zusätzliche Aufnehmergewicht und die erforderliche
+ Verkabelung das dynamische Verhalten (mass-loading effect), sodass insbesondere
+ bei leichten platten- oder schalenartigen Strukturen eine rückwirkungsfreie
+ optische Schwingungsmessung erforderlich ist.
+ Dabei kommen meist Laser-Doppler-Vibrometer (LDV) zum Einsatz, die eine
+ hohe Frequenz- und Amplitudendynamik besitzen und je nach Konfiguration
+ lineare, ebene oder sogar räumliche Deformationen von diskreten Messpunkten
+ erfassen.
+ Wird die Struktur in einem definierten Raster gescannt, kann daraus für
+ stationäre Schwingungen schrittweise die gesamte Oberflächendeformation
+ erfasst werden.
+ Andere optische Verfahren erlauben direkt eine räumliche Erfassung der
+ Deformation, etwa Streifenprojektionsverfahren für sta\SpecialChar \-
+tische Deformationen
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Diss Streifenprojektion"
+
+\end_inset
+
+ oder Electronic Speckle Pattern Interferometry (ESPI) für die interferometrisch
+e Vermessung einer schwingenden Oberfläche 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ESPI"
+
+\end_inset
+
+.
+ Gut etabliert sind auch digitale Bildkorrelationsverfahren (digital image
+ correlation - DIC), welche für räumliche Analysen mindestens zwei kalibrierte
+ Kameras nutzen, und neben der dynamischen Vermessung von Deformationen
+ auch eine dreidimensionale Rekonstruktion des Messobjektes erlauben 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sutton,3D DIC"
+
+\end_inset
+
+.
+ Dabei werden für die optische Vermessung hochdynamischer Szenen derzeit
+ Hochgeschwindigkeitskameras mit entsprechender Auflösung verwendet.
+ In dieser Arbeit wird gezeigt, dass hochfrequente Schwingungen (Betriebs\SpecialChar \-
+schwing
+ungsanalyse) bei entsprechender Beleuchtung auch mit Standardkameras oder
+ Webcams vermessen werden können.
+\end_layout
+
+\begin_layout Section
+Theorie
+\end_layout
+
+\begin_layout Standard
+Die zentrale Aufgabe klassischer Stereo-Vision liegt in der Bestimmung relativer
+ Tiefeninformation eines Objektes auf Basis von zwei Kamerabildern, welche
+ eine Szene von unterschiedlichen Positionen aus aufzeichnen.
+ Die technische Umsetzung entspricht dabei genau jenem Vorgang, der auch
+ beim räumlichen Sehen stattfindet: ist die Position der Kameras zueinander
+ bekannt und ein punktförmiges Objekt auf beiden Stereobildern erkennbar,
+ kann daraus durch Verschneidung bzw.
+ Be\SpecialChar \-
+stimmung des kürzesten Abstandes der linken (Index 
+\begin_inset Formula $l$
+\end_inset
+
+) und rechten (Index 
+\begin_inset Formula $r$
+\end_inset
+
+) Sichtstrahlen 
+\begin_inset Formula $s_{l}$
+\end_inset
+
+ und 
+\begin_inset Formula $s_{r}$
+\end_inset
+
+ das Objekt im Raum relativ zum Kamera-Koordinatensystem gefunden werden,
+ siehe Fig.
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Abb Stereo-Triangulation"
+
+\end_inset
+
+.
+ ...
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Bilder/Stereo_Triangulation.eps
+	lyxscale 130
+	width 8cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Prinzip von Stereo-Triangulation.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Abb Stereo-Triangulation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+...Eine wesentliche Komponente beim vorgestellten Messsystem ist die flächige
+ Beleuchtung des Messobjektes mit Hilfe von Stroboskoplicht, wodurch hochfrequen
+te periodische Schwingungen durch gezielte Verletzung des Abtasttheorems
+ von 
+\noun on
+Shannon
+\noun default
+ (bewusste Unterabtastung) auf eine niedrige Frequenz abgebildet und an
+ die Erfassungsrate der verwendeten Kameras angepasst werden 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hochrainer"
+
+\end_inset
+
+.
+ Besitzt die tatsächliche mechanische Schwingung die Periodendauer 
+\begin_inset Formula $T$
+\end_inset
+
+, welche mit Hilfe intensiver Stroboskoplichtblitze zu den Zeitpunkten 
+\begin_inset Formula $nT_{S}$
+\end_inset
+
+, 
+\begin_inset Formula $n=1,2,3,\dots$
+\end_inset
+
+ abgetastet wird, so stellt sich unter der Annahme 
+\begin_inset Formula $T<T_{S}<3T/2$
+\end_inset
+
+ eine scheinbare Schwingung der Periodendauer 
+\begin_inset Formula $T_{d}=T_{S}T/(T_{S}-T)$
+\end_inset
+
+ ein.
+ 
+\end_layout
+
+\begin_layout Standard
+...Das Zufallsmuster ermöglicht eine eindeutige Zuordnung der Oberflächenpunkte
+ beider Kameras, wobei die korrespondierenden Bildausschnitte für ebene
+ Teilflächen durch die allgemeine Abbildung
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+x_{r} & = & \frac{\left(1+a_{11}\right)x_{l}+a_{12}y_{l}+a_{13}}{1+a_{31}x_{l}+a_{32}y_{l}}\nonumber \\
+\label{eq: Transformationsvorschrift}\\
+y_{r} & = & \frac{a_{21}x_{l}+\left(1+a_{22}\right)y_{l}+a_{23}}{1+a_{31}x_{l}+a_{32}y_{l}}\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+verknüpft sind.
+ Dabei beschreiben die Koordinatenpaare 
+\begin_inset Formula $\left(x_{l},y_{l}\right)$
+\end_inset
+
+ und 
+\begin_inset Formula $\left(x_{r},y_{r}\right)$
+\end_inset
+
+ die Abbildung eines räumlichen Punktes in der linken und rechten Stereokamera,
+ wobei der linke Kameraausschnitt als Referenzbild festgelegt wurde.
+ Die gesuchten Parameter 
+\begin_inset Formula $a_{13}$
+\end_inset
+
+, 
+\begin_inset Formula $a_{23}$
+\end_inset
+
+, 
+\begin_inset Formula $a_{11}$
+\end_inset
+
+, 
+\begin_inset Formula $a_{22}$
+\end_inset
+
+, 
+\begin_inset Formula $a_{12}$
+\end_inset
+
+, 
+\begin_inset Formula $a_{21}$
+\end_inset
+
+ beschreiben die Verschiebung, die Dehnung und die Scherung der Referenzfläche
+ in horizontale und vertikale Richtung und sind zur Beschreibung einer affinen
+ Abbildung erforderlich, siehe Fig.
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Abb. Transformationsparameter"
+
+\end_inset
+
+(b)-(g).
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bilder/transf.png
+	lyxscale 50
+	width 2.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ausgangsbild
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bilder/transf_u.png
+	lyxscale 50
+	width 2.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{13}\neq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bilder/transf_v.png
+	lyxscale 50
+	width 2.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{23}\neq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bilder/transf_dudx.png
+	lyxscale 50
+	width 2.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{11}\neq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bilder/transf_dvdy.png
+	lyxscale 50
+	width 2.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{22}\neq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bilder/transf_dvdx.png
+	lyxscale 50
+	width 2.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{21}\neq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bilder/transf_dudy.png
+	lyxscale 50
+	width 2.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{12}\neq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bilder/transf_au.png
+	lyxscale 50
+	width 2.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{31}\neq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bilder/transf_av.png
+	lyxscale 50
+	width 2.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{32}\neq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Einfluss der einzelnen Transformationsparameter auf ein quadratisches Subset.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "Abb. Transformationsparameter"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Durch die Parameter 
+\begin_inset Formula $a_{31}$
+\end_inset
+
+, 
+\begin_inset Formula $a_{32}$
+\end_inset
+
+ kann eine ...
+\end_layout
+
+\begin_layout Section
+Messaufbau
+\end_layout
+
+\begin_layout Standard
+Der eingesetzte Messaufbau besteht im Wesentlichen aus zwei Standard-Webcams,
+ die mit Hilfe eines Statives in zueinander definierten Positionen angeordnet
+ und auf die zu untersuchende Szene ausgerichtet sind, siehe Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Abb. Messaufbau"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Bilder/Messaufbau.eps
+	width 8cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schematische Darstellung des Stereo-Messaufbaus.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Abb. Messaufbau"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Dabei erfolgt die exakte Ermittlung der relativen Position durch eine Stereo-Vis
+ion-Kalibrierung 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Toolbox"
+
+\end_inset
+
+ unter Verwendung einer ebenen Kalibrierungstafel mit aufgedrucktem Schachbrettm
+uster bekannter Dimension.
+ Im Zuge der einmalig durchzuführenden Kalibrierung werden sowohl relative
+ Position und Ausrichtung, als auch Linsenfehler ermittelt bzw.
+ korrigiert.
+ ...
+\end_layout
+
+\begin_layout Section
+Anwendungen
+\end_layout
+
+\begin_layout Standard
+Um die Leistungsfähigkeit des vorgestellten Systems zu zeigen, ...
+\end_layout
+
+\begin_layout Section*
+Literatur
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "Diss Streifenprojektion"
+
+\end_inset
+
+ J.
+ Gühring,
+\emph on
+ 3D-Erfassung und Objektrekonstruktion mittels Streifenprojektion
+\emph default
+, Dissertation, Inst.
+ f.
+ Photogrammetrie, Univ.
+ Stuttgart, 2002.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "ESPI"
+
+\end_inset
+
+D.I.
+ Farrant, J.N.
+ Petzing, J.R.
+ Tyrer, 
+\begin_inset Quotes eld
+\end_inset
+
+Geometrically qualified ESPI vibration analysis of an engine
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\emph on
+Optics and Lasers in Engineering,
+\emph default
+ vol 41, pp 659–671, 2004.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "Sutton"
+
+\end_inset
+
+ M.
+ A.
+ Sutton, J.-J.
+ Orteu, H.
+ W.
+ Schreier, 
+\emph on
+Image Correlation for Shape, Motion and Deformation Measurements
+\emph default
+, Spinger Science, 2009.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "3D DIC"
+
+\end_inset
+
+M.
+ N.
+ Helfrick, C.
+ Niezrecki, P.
+ Avitable, T.
+ Schmidt, 
+\begin_inset Quotes erd
+\end_inset
+
+3D digital image correlation methods for full-field vibration measurement
+ 
+\begin_inset Quotes eld
+\end_inset
+
+, 
+\emph on
+Mech.
+ Systems and Sign.
+ Proc.
+\emph default
+, vol 25, pp 917-927, 2011.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "Hochrainer"
+
+\end_inset
+
+ M.
+ J.
+ Hochrainer, 
+\begin_inset Quotes eld
+\end_inset
+
+Visualizing Structural Vibrations Using a Novel Strobe Light Setup
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\emph on
+sound and vibration magazine
+\emph default
+, vol
+\emph on
+ 
+\emph default
+48, pp 14-18, 2014.
+\end_layout
+
+\end_body
+\end_document
