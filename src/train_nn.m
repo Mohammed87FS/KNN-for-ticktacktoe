@@ -18,13 +18,22 @@ model_path = fullfile(src_path,'..','models','tictactoe_nn.mat');
 
 if opts.generate_data_boolean || ~exist(data_path, 'file')
     fprintf('generating new data...\n');
-    [input,output] = generate_data(opts.num_games, true); %% TODO rework gen to have function
+    [input, output] = generate_data(true);  % true = save to file
 else 
     fprintf('loading data from %s...\n', data_path);
     data = load(data_path);
-    input = data.boards; % hier erwarte ich input wo jede Zeile ein board mit 9 feldern (zeile pro Spiel)
-    output = data.move_idx; % hier sollte one hot encoding verwendet werden 
-    fprintf('data loaded %d samples\n', size(input,1));
+    
+    % Nur nicht-terminale Stellungen behalten (move_idx > 0)
+    valid_moves = data.move_idx > 0;
+    input = data.boards(valid_moves, :);
+    
+    % One Hot Encoding für move_idx erstellen
+    num_valid = sum(valid_moves);
+    output = zeros(num_valid, 9);
+    linear_idx = sub2ind(size(output), (1:num_valid)', data.move_idx(valid_moves));
+    output(linear_idx) = 1;
+    
+    fprintf('data loaded %d samples (filtered from %d total)\n', num_valid, size(data.boards,1));
 end
 
 % Transpose weil .. jede Spalte ist ein Datenpunkt und jede Zeile ist ein feature 
@@ -44,7 +53,7 @@ netz = feedforwardnet(opts.hidden);
 % für uns nicht ideal, weil wir relativ viele Samples haben
 
 % Option 2.. Scaled Conjugate Gradient (aktuell)
-net.trainFcn = 'trainscg';
+netz.trainFcn = 'trainscg';
 % Vorteile: Braucht wenig Speicher, schnell, gut für große Datensätze
 % Nachteile: Etwas langsamer als trainlm, aber das ist ok
 % Für uns: Passt gut, weil wir viele Trainingsdaten haben

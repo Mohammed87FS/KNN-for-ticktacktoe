@@ -1,18 +1,30 @@
+function [input, output] = generate_data(save_to_file)
 % GENERATE_DATA Erzeuge einen Datensatz von TicTacToe-Stellungen und empfohlenen Zügen
-% Dieses Skript erzeugt einen Datensatz entsprechend dem Cleve Moler TicTacToe-Kapitel:
+% [input, output] = generate_data(save_to_file)
+%
+% Erzeugt einen Datensatz entsprechend dem Cleve Moler TicTacToe-Kapitel:
 % - listet alle möglichen 3x3-Bretter auf
 % - filtert legale Stellungen (Zuganzahl und keine unmöglichen Doppel-Siege)
 % - für jede nicht-terminale Stellung bestimmt den Spieler am Zug und den
 %   empfohlenen Zug mit der naiven `strategy` aus dem Kapitel
-% - speichert den Datensatz in `data_tictactoe.mat` im Arbeitsverzeichnis
-
+%
+% Argumente:
+%   save_to_file - (optional) true = speichert in data/data_tictactoe.mat (default: true)
+%
+% Rückgabe:
+%   input  - N x 9 Matrix der Board-Zustände (nur nicht-terminale)
+%   output - N x 9 Matrix der One-Hot-kodierten Züge
+%
 % Kompatibel mit MATLAB und Octave.
 
-clearvars; clc;
+if nargin < 1
+    save_to_file = true;
+end
 
 % Logging / Laufzeit-Optionen
 verbose = true;                            % true = Ausgabe in Konsole und Logdatei
-logfile = fullfile(pwd,'generate_data.log');
+src_path = fileparts(mfilename('fullpath'));
+logfile = fullfile(src_path,'..','data','generate_data.log');
 fid = fopen(logfile,'w');                  % Logdatei (überschreibt)
 fprintf(fid,'generate_data log started: %s\n', datestr(now));
 progress_step = 5000;                      % wie oft Fortschritt ausgegeben wird
@@ -125,10 +137,19 @@ player_to_move = player_to_move(valid);
 move_idx = move_idx(valid);
 
 % Datensatz speichern
-outfile = fullfile(pwd,'data_tictactoe.mat');
-save(outfile,'boards','winner_label','player_to_move','move_idx');
+if save_to_file
+    outfile = fullfile(src_path,'..','data','data_tictactoe.mat');
+    save(outfile,'boards','winner_label','player_to_move','move_idx');
+    fprintf('Gespeichert %d legale Stellungen in %s\n', size(boards,1), outfile);
+end
 
-fprintf('Gespeichert %d legale Stellungen in %s\n', size(boards,1), outfile);
+% Rückgabewerte: nur nicht-terminale Stellungen mit One-Hot-Encoding
+valid_moves = move_idx > 0;
+input = boards(valid_moves, :);
+num_valid = sum(valid_moves);
+output = zeros(num_valid, 9);
+linear_idx = sub2ind(size(output), (1:num_valid)', move_idx(valid_moves));
+output(linear_idx) = 1;
 
 % Abschließendes Logging / Zusammenfassung
 elapsed = toc;
@@ -137,16 +158,20 @@ fprintf('%s\n', summary);
 fprintf(fid, '%s\n', summary);
 
 % Save log struct
-log.cnt_total = cnt_total;
-log.cnt_legal = cnt_legal;
-log.cnt_terminal = cnt_terminal;
-log.cnt_moves_found = cnt_moves_found;
-log.cnt_win_green = cnt_win_green;
-log.cnt_win_blue = cnt_win_blue;
-log.elapsed = elapsed;
-save(fullfile(pwd,'data_tictactoe_log.mat'),'log');
+if save_to_file
+    log_struct.cnt_total = cnt_total;
+    log_struct.cnt_legal = cnt_legal;
+    log_struct.cnt_terminal = cnt_terminal;
+    log_struct.cnt_moves_found = cnt_moves_found;
+    log_struct.cnt_win_green = cnt_win_green;
+    log_struct.cnt_win_blue = cnt_win_blue;
+    log_struct.elapsed = elapsed;
+    save(fullfile(src_path,'..','data','data_tictactoe_log.mat'),'log_struct');
+end
 
 fclose(fid);
+
+end  % Ende der Hauptfunktion generate_data
 
 %% --- Hilfsfunktionen ---
 function p = winner(X)

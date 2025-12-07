@@ -1,5 +1,5 @@
-generate_data log started: 06-Dec-2025 15:57:47
-Processed 5000/19683 boards (legal: 1177, terminal: 340, moves_found: 837) elapsed: 0.2s
+generate_data log started: 07-Dec-2025 01:17:30
+Processed 5000/19683 boards (legal: 1177, terminal: 340, moves_found: 837) elapsed: 0.3s
 
 Summary:
   processed boards: 19683
@@ -8,5 +8,5 @@ Summary:
   moves found: 4520
   wins (green): 1098
   wins (blue): 412
-  elapsed (s): 0.28
+  elapsed (s): 0.56
 

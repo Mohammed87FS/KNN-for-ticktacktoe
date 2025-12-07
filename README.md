@@ -12,17 +12,12 @@ KNN-for-ticktacktoe/
 ├── src/                    # MATLAB Implementation Scripts
 │ ├── generate_data.m       # Datensammlung aus simulierten Tic Tac Toe Spielen
 │ ├── train_nn.m            # Training des neuronalen Netzes mit gesammelten Daten
-│ ├── strategy.m            # Zug Strategie Funktion (erweitert mit NN Vorhersagen)
 │ └── tictactoe.m           # Hauptspiel Script für die Spiel Simulation
 
 ├── data/  
                             # Generierte Daten
 ├── models/                 # Trainierte NN Modelle
 │ 
-
-├── tests/                  # Test Scripts
-│ └── test_game.m           # Tests für Spiel und NN Leistung
-
 ├── docs/                   # Dokumentation
 │ ├── Cleve_Moler_ZugGen.md # Original Zuggenerator von Cleve Moler
 │ └── project_notes.md      # Projekt Notizen und Erklärunge
