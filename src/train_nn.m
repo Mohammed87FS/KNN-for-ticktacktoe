@@ -1,6 +1,7 @@
-function netz = train_netz(varargin) % x spater dann !!
+function netz = train_netz(varargin)
 
-p = inputParser
+
+p = inputParser;
 addParameter(p,'hidden', [36,18]);
 addParameter(p,'learn_rate', 0.01);
 addParameter(p,'epochs', 300);
@@ -15,12 +16,29 @@ opts = p.Results;
 src_path = fileparts(mfilename('fullpath'));
 data_path = fullfile(src_path,'..','data','data_tictactoe.mat');  
 model_path = fullfile(src_path,'..','models','tictactoe_nn.mat');
+log_path = fullfile(src_path,'..','models','training_log.txt');
+
+% Logging starten
+fid = fopen(log_path, 'w');
+log_msg = @(msg) fprintf_both(fid, msg);
+
+log_msg(sprintf('=== TicTacToe KNN Training Log ===\n'));
+log_msg(sprintf('Datum: %s\n\n', datestr(now)));
+log_msg(sprintf('Parameter:\n'));
+log_msg(sprintf('  Hidden Layers: [%s]\n', num2str(opts.hidden)));
+log_msg(sprintf('  Learning Rate: %.4f\n', opts.learn_rate));
+log_msg(sprintf('  Epochs: %d\n', opts.epochs));
+log_msg(sprintf('  Validation Split: %.1f%%\n', opts.validation_split * 100));
+log_msg(sprintf('\n'));
+
+tic;  % Zeitmessung starten
 
 if opts.generate_data_boolean || ~exist(data_path, 'file')
-    fprintf('generating new data...\n');
+    log_msg('Daten: Generiere neue Daten...\n');
     [input, output] = generate_data(true);  % true = save to file
+    log_msg(sprintf('Daten: %d Samples generiert\n', size(input,1)));
 else 
-    fprintf('loading data from %s...\n', data_path);
+    log_msg(sprintf('Daten: Lade von %s\n', data_path));
     data = load(data_path);
     
     % Nur nicht-terminale Stellungen behalten (move_idx > 0)
@@ -33,7 +51,7 @@ else
     linear_idx = sub2ind(size(output), (1:num_valid)', data.move_idx(valid_moves));
     output(linear_idx) = 1;
     
-    fprintf('data loaded %d samples (filtered from %d total)\n', num_valid, size(data.boards,1));
+    log_msg(sprintf('Daten: %d Samples geladen (gefiltert von %d)\n', num_valid, size(data.boards,1)));
 end
 
 % Transpose weil .. jede Spalte ist ein Datenpunkt und jede Zeile ist ein feature 
@@ -65,7 +83,7 @@ netz.trainFcn = 'trainscg';
 % Für uns: Gut wenn Generalisierung wichtiger ist als Geschwindigkeit
 
 % Schlussfolgerung
-% ich glaube fur tictactoe ist trainscg' optimal wegen kleinem Sample size 
+% ich glaube fur tictactoe ist trainscg optimal wegen kleinem Sample size 
 % ====================================================================
 % ====================================================================
 
@@ -86,18 +104,38 @@ netz.divideParam.valRatio = opts.validation_split;      % 20% validation set
 netz.divideParam.testRatio = test_ratio;                        % kein test set
 
 
+log_msg(sprintf('\nTraining gestartet...\n'));
 [netz_model, training_record] = train(netz, X, Y);
+training_time = toc;
 
-fprintf('training erledigt\n');
+log_msg(sprintf('Training abgeschlossen!\n'));
+log_msg(sprintf('  Dauer: %.1f Sekunden\n', training_time));
+log_msg(sprintf('  Epochen: %d\n', training_record.num_epochs));
+log_msg(sprintf('  Beste Validation Performance: %.6f\n', training_record.best_vperf));
+
 save(model_path, 'netz_model', 'training_record');
+log_msg(sprintf('  Modell gespeichert: %s\n', model_path));
 
-% testing
-test_index = training_record.testInd; % indices fur test set
-Y_vorhersage = netz_model(X(:, test_index)); % vorhersagen fur test set
+% Testing
+test_index = training_record.testInd;
+Y_vorhersage = netz_model(X(:, test_index));
 [~, vorhersagen_class] = max(Y_vorhersage);
 [~, true_class] = max(Y(:, test_index));
 accuracy = mean(vorhersagen_class == true_class) * 100;
 
-fprintf('Test accuracy: %.2f%%\n', accuracy);
+log_msg(sprintf('\nErgebnisse:\n'));
+log_msg(sprintf('  Test Samples: %d\n', length(test_index)));
+log_msg(sprintf('  Test Accuracy: %.2f%%\n', accuracy));
+log_msg(sprintf('\n=== Training Log Ende ===\n'));
 
+fclose(fid);
+fprintf('Log gespeichert: %s\n', log_path);
+
+end
+
+%% Hilfsfunktion für Logging
+function fprintf_both(fid, msg)
+% Schreibt in Konsole und Logdatei
+fprintf('%s', msg);
+fprintf(fid, '%s', msg);
 end

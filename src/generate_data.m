@@ -1,21 +1,5 @@
 function [input, output] = generate_data(save_to_file)
-% GENERATE_DATA Erzeuge einen Datensatz von TicTacToe-Stellungen und empfohlenen Zügen
-% [input, output] = generate_data(save_to_file)
-%
-% Erzeugt einen Datensatz entsprechend dem Cleve Moler TicTacToe-Kapitel:
-% - listet alle möglichen 3x3-Bretter auf
-% - filtert legale Stellungen (Zuganzahl und keine unmöglichen Doppel-Siege)
-% - für jede nicht-terminale Stellung bestimmt den Spieler am Zug und den
-%   empfohlenen Zug mit der naiven `strategy` aus dem Kapitel
-%
-% Argumente:
-%   save_to_file - (optional) true = speichert in data/data_tictactoe.mat (default: true)
-%
-% Rückgabe:
-%   input  - N x 9 Matrix der Board-Zustände (nur nicht-terminale)
-%   output - N x 9 Matrix der One-Hot-kodierten Züge
-%
-% Kompatibel mit MATLAB und Octave.
+
 
 if nargin < 1
     save_to_file = true;
@@ -173,7 +157,6 @@ fclose(fid);
 
 end  % Ende der Hauptfunktion generate_data
 
-%% --- Hilfsfunktionen ---
 function p = winner(X)
 % p = winner(X) gibt zurück:
 % p = 0, kein Gewinner

@@ -1,0 +1,24 @@
+=== TicTacToe KNN Training Log ===
+Datum: 07-Dec-2025 01:25:16
+
+Parameter:
+  Hidden Layers: [36  18]
+  Learning Rate: 0.0100
+  Epochs: 300
+  Validation Split: 20.0%
+
+Daten: Lade von C:\Users\moham\Coding-Projects\matlab_projects\KNN-for-ticktacktoe\src\..\data\data_tictactoe.mat
+Daten: 4520 Samples geladen (gefiltert von 5890)
+
+Training gestartet...
+Training abgeschlossen!
+  Dauer: 7.1 Sekunden
+  Epochen: 69
+  Beste Validation Performance: 0.028571
+  Modell gespeichert: C:\Users\moham\Coding-Projects\matlab_projects\KNN-for-ticktacktoe\src\..\models\tictactoe_nn.mat
+
+Ergebnisse:
+  Test Samples: 452
+  Test Accuracy: 60.62%
+
+=== Training Log Ende ===

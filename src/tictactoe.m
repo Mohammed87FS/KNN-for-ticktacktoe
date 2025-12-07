@@ -1,7 +1,4 @@
 function tictactoe()
-% TICTACTOE Spiele TicTacToe gegen das trainierte KNN
-% Du bist Grün (+1), das KNN ist Blau (-1)
-% Gib Züge als Zahl 1-9 ein (Numpad-Layout)
 
 src_path = fileparts(mfilename('fullpath'));
 model_path = fullfile(src_path,'..','models','tictactoe_nn.mat');
@@ -82,14 +79,14 @@ legal = (input_vec == 0);
 probs(~legal) = -inf;
 
 [~, move] = max(probs);
-[i, j] = ind2sub([3,3], move);
+
+% Row-major Index zu (i,j) konvertieren (nicht ind2sub, das ist column-major!)
+i = ceil(move / 3);
+j = mod(move - 1, 3) + 1;
 end
 
 function [i, j] = numpad_to_ij(num)
-% Numpad-Zahl zu Matrix-Index
-%  7 8 9    (1,1)(1,2)(1,3)
-%  4 5 6 -> (2,1)(2,2)(2,3)
-%  1 2 3    (3,1)(3,2)(3,3)
+
 map = [3,1; 3,2; 3,3; 2,1; 2,2; 2,3; 1,1; 1,2; 1,3];
 i = map(num, 1);
 j = map(num, 2);
@@ -97,7 +94,7 @@ end
 
 function show_board(X)
 % Spielfeld anzeigen
-symbols = {' ', 'O', 'X'};  % 0=leer, -1=O(blau), +1=X(grün)
+symbols = {'O', ' ', 'X'};  % -1=O(blau), 0=leer, +1=X(grün)
 fprintf('\n');
 for row = 1:3
     for col = 1:3
