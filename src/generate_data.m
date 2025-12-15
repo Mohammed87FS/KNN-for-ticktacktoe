@@ -181,24 +181,50 @@ end
 end
 
 function [i,j] = strategy(X,p)
-% [i,j] = strategy(X,p) aus dem Cleve Moler Kapitel (naiv)
+% [i,j] = strategy(X,p) - Deterministische Strategie
+%
+% Verbesserte Cleve-Moler-Strategie mit deterministischer Zugwahl:
+% 1. Falls möglich: Gewinnzug ausführen
+% 2. Falls nötig: Gegnerischen Gewinnzug blockieren
+% 3. Sonst: Deterministisch nach Priorität (Mitte > Ecken > Kanten)
+%
+% Diese deterministische Variante ermöglicht konsistentes Lernen,
+% da gleiche Positionen immer den gleichen Zug ergeben.
+
 pause(0);
 
+% 1. Gewinnzug
 [i,j] = winningmove_magic(X,p);
-if isempty(i)
-    [i,j] = winningmove_magic(X,-p);
+if ~isempty(i)
+    return;
 end
-if isempty(i)
-    [I,J] = find(X == 0);
-    if isempty(I)
-        i = [];
-        j = [];
-        return
+
+% 2. Block
+[i,j] = winningmove_magic(X,-p);
+if ~isempty(i)
+    return;
+end
+
+% 3. Deterministisch: Mitte > Ecken > Kanten
+% Prioritätsliste (Indizes in 3x3 Matrix):
+%   Mitte:  (2,2)
+%   Ecken:  (1,1), (1,3), (3,1), (3,3)
+%   Kanten: (1,2), (2,1), (2,3), (3,2)
+priority = [2,2; 1,1; 1,3; 3,3; 3,1; 1,2; 2,1; 2,3; 3,2];
+
+for k = 1:size(priority,1)
+    r = priority(k,1);
+    c = priority(k,2);
+    if X(r,c) == 0
+        i = r;
+        j = c;
+        return;
     end
-    m = ceil(rand*length(I));
-    i = I(m);
-    j = J(m);
 end
+
+% Kein Zug möglich
+i = [];
+j = [];
 end
 
 function [i,j] = winningmove(X,p)

@@ -78,17 +78,30 @@ end
 %% Hilfsfunktionen
 
 function [i, j] = nn_move(X, netz)
-% KNN wählt einen Zug
-input_vec = reshape(X', 9, 1);
+% KNN wählt einen Zug - REINES neuronales Netz
+%
+% Das KNN wurde mit deterministischen Trainingsdaten trainiert
+% und entscheidet selbstständig über alle Züge:
+% - Gewinnzüge erkennen und ausführen
+% - Gegnerische Gewinnzüge blockieren  
+% - Strategische Züge (Mitte, Ecken) bevorzugen
+%
+% Keine regelbasierte Unterstützung - das Netz muss alles lernen!
+
+% Brett invertieren: KNN sieht sich selbst als +1
+% (Trainingsdaten sind aus Sicht des Spielers am Zug)
+X_flipped = -X;
+
+input_vec = reshape(X_flipped', 9, 1);
 probs = netz(input_vec);
 
-% Nur legale Züge
-legal = (input_vec == 0);
+% Nur legale Züge erlauben
+legal = (reshape(X', 9, 1) == 0);
 probs(~legal) = -inf;
 
 [~, move] = max(probs);
 
-% Row-major Index zu (i,j) konvertieren (nicht ind2sub, das ist column-major!)
+% Row-major Index zu (i,j) konvertieren
 i = ceil(move / 3);
 j = mod(move - 1, 3) + 1;
 end
