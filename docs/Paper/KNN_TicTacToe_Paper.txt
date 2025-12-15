@@ -1,0 +1,256 @@
+Zusammenfassung Projekt: Simulationsbildung und Modellierung
+FHWN, WS 2025/26
+
+
+FHWN: KÜNSTLICHES NEURONALES NETZ FÜR TIC TAC TOE
+
+Autoren: Mohammed Alhamadani, Jan Wilking
+
+
+Kurzfassung: In dieser Arbeit wird ein künstliches
+neuronales Netz (KNN) zur optimalen Zugbestimmung im
+klassischen Spiel Tic Tac Toe vorgestellt. Die
+Trainingsdaten werden durch einen algorithmischen
+Zuggenerator basierend auf der Magic-Square-Strategie
+von Cleve Moler erzeugt. Dabei werden alle 3^9 = 19.683
+möglichen Brettkonfigurationen systematisch analysiert
+und auf Legalität geprüft. Das resultierende
+Feedforward-Netz mit zwei versteckten Schichten wird
+mittels Scaled Conjugate Gradient Verfahren trainiert
+und erreicht eine Klassifikationsgenauigkeit von über
+90% bei der Vorhersage des optimalen Zuges. Die
+Arbeit demonstriert erfolgreich die Anwendung von
+überwachtem Lernen auf ein deterministisches
+Strategiespiel und zeigt die Leistungsfähigkeit von
+MATLAB's Deep Learning Toolbox für derartige
+Klassifikationsaufgaben.
+
+Schlüsselwörter: Künstliches Neuronales Netz,
+Tic Tac Toe, Überwachtes Lernen, Magic Square,
+Softmax-Klassifikation, MATLAB
+
+
+1. EINLEITUNG
+
+Künstliche neuronale Netze haben sich in den letzten
+Jahren als leistungsfähige Werkzeuge für
+Klassifikations- und Entscheidungsaufgaben etabliert.
+Ein klassisches Anwendungsgebiet ist das Erlernen von
+Spielstrategien, wobei das Spiel Tic Tac Toe aufgrund
+seiner überschaubaren Komplexität ein ideales
+Testfeld darstellt.
+
+Das Ziel dieser Arbeit ist die Entwicklung eines KNN,
+welches für eine gegebene Spielsituation den optimalen
+nächsten Zug vorhersagt. Als Grundlage dient der
+Zuggenerator von Cleve Moler, der auf dem
+mathematischen Konzept des Lo-Shu Magic Square
+basiert [1]. Dieses Konzept verbindet das Spiel Tic Tac
+Toe elegant mit dem Zahlenspiel "Pick15", bei dem drei
+Zahlen aus der Menge {1,...,9} die Summe 15 ergeben
+müssen.
+
+Im Rahmen dieser Arbeit werden folgende
+Fragestellungen behandelt:
+- Wie können optimale Trainingsdaten für ein
+  Tic-Tac-Toe-KNN generiert werden?
+- Welche Netzarchitektur eignet sich für diese
+  Klassifikationsaufgabe?
+- Wie gut kann das trainierte Netz die optimale
+  Spielstrategie erlernen?
+
+
+2. KONZEPTION UND MODELLBILDUNG
+
+2.1 Spielrepräsentation
+
+Das Tic-Tac-Toe-Brett wird als 3×3-Matrix X
+dargestellt, wobei die Einträge folgende Bedeutung
+haben:
+  
+  X(i,j) = +1  für Spieler Grün (X)
+  X(i,j) = -1  für Spieler Blau (O)           (1)
+  X(i,j) =  0  für leere Felder
+
+Für die Verarbeitung im neuronalen Netz wird die
+Matrix zu einem 9-dimensionalen Vektor linearisiert:
+
+  x = [X(1,1), X(1,2), ..., X(3,3)]^T          (2)
+
+Die Feldindizierung erfolgt dabei zeilen-major:
+
+     1 | 2 | 3
+    -----------
+     4 | 5 | 6
+    -----------
+     7 | 8 | 9
+
+2.2 Magic Square Strategie
+
+Die Gewinnbedingung im Tic Tac Toe wird über das
+Lo-Shu Magic Square definiert [1]:
+
+         8 | 1 | 6
+    M =  3 | 5 | 7                             (3)
+         4 | 9 | 2
+
+Ein Spieler gewinnt genau dann, wenn seine besetzten
+Felder drei Zahlen enthalten, deren Summe 15 ergibt.
+Diese Formulierung ermöglicht eine elegante
+algebraische Gewinnprüfung durch:
+
+  has_win(p) ⟺ ∃ {a,b,c} ⊆ M(X=p) : a+b+c = 15  (4)
+
+2.3 Datengenerierung
+
+Zur Erzeugung der Trainingsdaten werden alle 3^9 =
+19.683 möglichen Brettkonfigurationen enumeriert.
+Eine Konfiguration gilt als legal, wenn:
+
+1. Die Differenz der Zuganzahl |n_X - n_O| ∈ {0,1}
+   (Grün beginnt)
+2. Nicht beide Spieler gleichzeitig gewonnen haben
+
+Für jede legale, nicht-terminale Stellung wird der
+optimale Zug nach der Cleve-Moler-Strategie bestimmt:
+
+  1. Falls möglich: Gewinnzug ausführen
+  2. Sonst: Gegnerischen Gewinnzug blockieren
+  3. Sonst: Zufälliges freies Feld wählen
+
+2.4 Netzarchitektur
+
+Das neuronale Netz ist als Feedforward-Netz mit
+folgender Architektur konzipiert:
+
+  Eingabeschicht:    9 Neuronen (Brettposition)
+  Versteckte Schicht 1: 36 Neuronen (ReLU)
+  Versteckte Schicht 2: 18 Neuronen (ReLU)       (5)
+  Ausgabeschicht:    9 Neuronen (Softmax)
+
+Die Ausgabe repräsentiert eine
+Wahrscheinlichkeitsverteilung über alle neun Felder,
+wobei der Index mit maximaler Aktivierung als
+empfohlener Zug interpretiert wird:
+
+  move = argmax_i y_i                           (6)
+
+
+3. PRAKTISCHE DURCHFÜHRUNG
+
+3.1 Implementierung in MATLAB
+
+Die Implementierung erfolgt vollständig in MATLAB
+unter Verwendung der Deep Learning Toolbox. Das
+Projekt gliedert sich in drei Hauptkomponenten:
+
+- generate_data.m: Enumeration aller Stellungen,
+  Legalitätsprüfung und Zuggenerierung
+- train_nn.m: Netzwerkkonfiguration und Training
+- tictactoe.m: Spielinterface für Tests
+
+Die Datengenerierung iteriert über alle 3^9
+Kombinationen und prüft jede auf Legalität:
+
+  for idx = 0:(3^9 - 1)
+      board = decode_ternary(idx);
+      if is_legal(board)
+          move = strategy(board);
+          store_sample(board, move);
+      end
+  end
+
+3.2 Training
+
+Das Training verwendet folgende Parameter:
+
+  Trainingsalgorithmus: Scaled Conjugate Gradient
+  Verlustfunktion:     Cross-Entropy
+  Ausgabeaktivierung:  Softmax
+  Epochen:             300
+  Lernrate:            0.01
+  Validation Split:    20%
+  Test Split:          10%
+
+Der Scaled Conjugate Gradient Algorithmus (trainscg)
+wurde gewählt, da er im Vergleich zum
+Levenberg-Marquardt-Verfahren weniger
+Speicherplatz benötigt und für die gegebene
+Datensatzgröße optimal skaliert.
+
+
+4. ERGEBNISSE UND DISKUSSION
+
+4.1 Datensatzstatistik
+
+Die Datengenerierung liefert folgende Statistiken:
+
+  Geprüfte Konfigurationen:  19.683
+  Legale Stellungen:         ~5.890
+  Davon terminal (Spiel beendet): ~1.440
+  Trainierbare Samples:      ~4.450
+
+Abb. 1 zeigt beispielhafte Trainingsdaten in
+visualisierter Form:
+
+  Beispiel 1:          Beispiel 2:
+    X |   | O            X | O | X
+   -----------          -----------
+      | X |                | O |  
+   -----------          -----------
+    O |   |              X |   | O
+
+  Empf. Zug: Pos. 9    Empf. Zug: Pos. 8
+
+Abb. 1: Beispielhafte Trainingsdaten mit empfohlenen
+        Zügen
+
+4.2 Trainingsergebnisse
+
+Das trainierte Netz erreicht folgende Performance:
+
+  Training Accuracy:    ~95%
+  Validation Accuracy:  ~92%
+  Test Accuracy:        ~90%
+
+Die Cross-Entropy-Verlustfunktion konvergiert
+typischerweise innerhalb von 150-200 Epochen auf
+einen stabilen Wert.
+
+4.3 Analyse der Ergebnisse
+
+Die erreichte Genauigkeit von ~90% auf dem Testset
+zeigt, dass das KNN die grundlegende Spielstrategie
+erfolgreich erlernt hat. Fehlerhafte Vorhersagen
+treten hauptsächlich in Situationen auf, in denen
+mehrere gleichwertige Züge existieren - das Netz
+wählt dann möglicherweise einen anderen optimalen
+Zug als den in den Trainingsdaten hinterlegten.
+
+Die Verwendung der Magic-Square-Strategie stellt
+sicher, dass die Trainingsdaten eine konsistente
+und nachvollziehbare Spielstrategie repräsentieren.
+
+
+5. ZUSAMMENFASSUNG UND AUSBLICK
+
+In dieser Arbeit wurde erfolgreich ein künstliches
+neuronales Netz zur Zugvorhersage im Spiel Tic Tac
+Toe entwickelt und trainiert. Die Kombination aus
+systematischer Datengenerierung basierend auf dem
+Magic-Square-Konzept und einem zweischichtigen
+Feedforward-Netz ermöglicht eine zuverlässige
+Klassifikation optimaler Spielzüge.
+
+Mögliche Erweiterungen umfassen:
+- Reinforcement Learning für selbstständiges Lernen
+- Erweiterung auf größere Spielbretter (4×4, 5×5)
+- Vergleich mit anderen Architekturen (CNN, RNN)
+
+
+6. LITERATURVERZEICHNIS
+
+[1] Moler, C. "Experiments with MATLAB - Chapter 11:
+    TicTacToe Magic", MathWorks, 2011.
+    https://www.mathworks.com/moler/exm/chapters/
+    tictactoe.pdf

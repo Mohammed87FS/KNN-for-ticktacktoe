@@ -1,25 +1,44 @@
-# KNN-for-ticktacktoe
+# KNN für Tic Tac Toe
 
-Uni project in matlab for simulationsbildnug und Modelierung
+Uni-Projekt für Simulationsbildung und Modellierung (FHWN, WS 2025/26)
 
-Aufgabe 16: Künstliche Neuronale Netze
-Erstellen Sie ein KNN zum Tic Tac Toe spielen. Trainieren sie das Modell mit einem
-Zuggenerator von Cleve Moler, https://www.mathworks.com/content/dam/mathworks/mathworksdot-com/moler/exm/chapters/tictactoe.pdf
+## Schnellstart
 
-# MVP Project Structure
+```matlab
+% 1. In MATLAB den src-Ordner öffnen
+cd src
+
+% 2. Spiel starten (gegen KNN spielen)
+tictactoe
+```
+
+## Befehle
+
+| Befehl          | Beschreibung                    |
+| --------------- | ------------------------------- |
+| `tictactoe`     | Startet das Spiel gegen das KNN |
+| `generate_data` | Generiert Trainingsdaten        |
+| `train_netz`    | Trainiert das neuronale Netz    |
+
+## Projektstruktur
 
 KNN-for-ticktacktoe/
-├── src/                    # MATLAB Implementation Scripts
-│ ├── generate_data.m       # Datensammlung aus simulierten Tic Tac Toe Spielen
-│ ├── train_nn.m            # Training des neuronalen Netzes mit gesammelten Daten
-│ └── tictactoe.m           # Hauptspiel Script für die Spiel Simulation
+├── src/ # MATLAB Scripts
+│ ├── tictactoe.m # Hauptspiel (hier starten!)
+│ ├── generate_data.m # Trainingsdaten generieren
+│ ├── train_nn.m # KNN trainieren
 
-├── data/  
-                            # Generierte Daten
-├── models/                 # Trainierte NN Modelle
-│ 
-├── docs/                   # Dokumentation
-│ ├── Cleve_Moler_ZugGen.md # Original Zuggenerator von Cleve Moler
-│ └── project_notes.md      # Projekt Notizen und Erklärunge
+├── data/ # Generierte Trainingsdaten
+├── models/ # Trainierte Modelle
+└── docs/ # Dokumentation & Paper
 
-└── README.md               # Projekt Übersicht
+## Aufgabenstellung
+
+```
+Aufgabe 16: Künstliche Neuronale Netze
+Erstellen Sie ein KNN zum Tic Tac Toe spielen. Trainieren Sie das Modell mit einem
+Zuggenerator von Cleve Moler.
+
+Referenz: [Cleve Moler - TicTacToe Magic](https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/moler/exm/chapters/tictactoe.pdf)
+
+```

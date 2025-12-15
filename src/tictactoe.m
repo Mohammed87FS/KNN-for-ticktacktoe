@@ -13,20 +13,28 @@ netz = data.netz_model;
 % Spielfeld initialisieren
 X = zeros(3,3);
 
-% Numpad-Layout anzeigen
+% Titel anzeigen
 fprintf('\n=== TIC TAC TOE vs KNN ===\n');
-fprintf('Züge eingeben als 1-9:\n');
-fprintf('  7 | 8 | 9\n');
-fprintf(' ---+---+---\n');
-fprintf('  4 | 5 | 6\n');
-fprintf(' ---+---+---\n');
-fprintf('  1 | 2 | 3\n\n');
 
-show_board(X);
+% Wer beginnt?
+fprintf('Wer soll beginnen?\n');
+fprintf('  1 = Du (X)\n');
+fprintf('  2 = KNN (O)\n');
+starter = input('Auswahl: ');
+
+show_board_with_numpad(X);
+
+% Falls KNN beginnt, ersten Zug machen
+if starter == 2
+    fprintf('KNN beginnt...\n');
+    [i, j] = nn_move(X, netz);
+    X(i,j) = -1;
+    show_board_with_numpad(X);
+end
 
 % Spielschleife
 while true
-    % Spieler (Grün) am Zug
+    % Spieler (X) am Zug
     move = input('Dein Zug (1-9): ');
     [i, j] = numpad_to_ij(move);
     
@@ -35,7 +43,7 @@ while true
         continue;
     end
     X(i,j) = 1;
-    show_board(X);
+    show_board_with_numpad(X);
     
     % Check Gewinner
     p = check_winner(X);
@@ -51,7 +59,7 @@ while true
     fprintf('KNN denkt...\n');
     [i, j] = nn_move(X, netz);
     X(i,j) = -1;
-    show_board(X);
+    show_board_with_numpad(X);
     
     % Check Gewinner
     p = check_winner(X);
@@ -90,6 +98,35 @@ function [i, j] = numpad_to_ij(num)
 map = [3,1; 3,2; 3,3; 2,1; 2,2; 2,3; 1,1; 1,2; 1,3];
 i = map(num, 1);
 j = map(num, 2);
+end
+
+function show_board_with_numpad(X)
+% Spielfeld mit Numpad-Referenz nebeneinander anzeigen
+symbols = {'O', ' ', 'X'};  % -1=O(KNN), 0=leer, +1=X(Spieler)
+numpad = {'7', '8', '9'; '4', '5', '6'; '1', '2', '3'};
+
+fprintf('\n');
+fprintf('   Spielfeld          Eingabe\n');
+fprintf('                      (Numpad)\n');
+for row = 1:3
+    % Spielfeld
+    for col = 1:3
+        idx = X(row,col) + 2;
+        fprintf(' %s ', symbols{idx});
+        if col < 3, fprintf('|'); end
+    end
+    fprintf('       ');
+    % Numpad-Referenz
+    for col = 1:3
+        fprintf(' %s ', numpad{row,col});
+        if col < 3, fprintf('|'); end
+    end
+    fprintf('\n');
+    if row < 3
+        fprintf('---+---+---       ---+---+---\n');
+    end
+end
+fprintf('\n');
 end
 
 function show_board(X)
